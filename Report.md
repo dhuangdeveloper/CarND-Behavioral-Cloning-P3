@@ -84,7 +84,7 @@ To augment the data, I initally use the following steps:
 1. I first use the left and right image in addition to the center image where I shift the steering angle by a certain amount $a$. For example, if the original sample has steering angle $x$, then the steering angle associated with left image would be $x+a$ and the one associated with the right image would be $x-a$.
 2. I also experimented apply an affine transformation to the steering angle, i.e., $bx+a$ for the left and right image. I eventuall dropped this approach due to the difficulty to optimize two parameters and lack of evidence that the coefficient $b$ brings significant advantage. 
 3. For each image added to the data, I also flip the image and add the flipped image to the data.
-There are some more augmentation I took after running this model, and those will be described later. Some the augmentation ideas, especially the random shadow is borrowed from http://navoshta.com/end-to-end-deep-learning/
+There are some more augmentation I took after running this model, and those will be described later. The augmentation idea of using random shadow is borrowed from http://navoshta.com/end-to-end-deep-learning/
 
 I run the model on the simulation. The model would then veers off the road at the first left turn after the bridge where there is a openning. See below
 
