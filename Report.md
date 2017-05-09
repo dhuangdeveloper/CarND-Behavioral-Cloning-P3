@@ -90,6 +90,8 @@ I run the model on the simulation. The model would then veers off the road at th
 
 ![alt text][image1]
 
+This suggests that the model might be overfitting to the common type of edges seen in the training data. Therefore, I added augmentation with brigthness variation in later steps.
+
 I experimented with various $a$ and added some of my own training image. In addition, I start to drop a random subset of images whose steering angle is close to 0. While changing $a$ would have a significant impact how straight the car drives it self, (a higher $a$ sometimes lead to unstable driving behavior where the car would have large steering angles and begins to bounce between two sides of the road before it finally go off road. These do not resolve the issue when the car would veer off the road at the previously mentioned location.
 
 I started to experiment with more augmentation techniques, including (in the order I experimented with)
