@@ -86,7 +86,9 @@ To augment the data, I initally use the following steps:
 3. For each image added to the data, I also flip the image and add the flipped image to the data.
 There are some more augmentation I took after running this model, and those will be described later. 
 
-I run the model on the simulation. The model would then veers off the road at the first left turn after the bridge where there is a openning. See ![alt text][image1]
+I run the model on the simulation. The model would then veers off the road at the first left turn after the bridge where there is a openning. See below
+
+![alt text][image1]
 
 I experimented with various $a$ and added some of my own training image. In addition, I start to drop a random subset of images whose steering angle is close to 0. While changing $a$ would have a significant impact how straight the car drives it self, (a higher $a$ sometimes lead to unstable driving behavior where the car would have large steering angles and begins to bounce between two sides of the road before it finally go off road. These do not resolve the issue when the car would veer off the road at the previously mentioned location.
 
