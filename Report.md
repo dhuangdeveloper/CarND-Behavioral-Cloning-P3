@@ -1,8 +1,5 @@
-#**Behavioral Cloning** 
+# Behaviorial Cloning
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
 
 ---
 
@@ -25,39 +22,39 @@ The goals / steps of this project are the following:
 
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Files Submitted & Code Quality
+### Files Submitted & Code Quality
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
+#### 1. Submission includes all required files and can be used to run the simulator in autonomous mode
 
 My project includes the following files:
 * model.py containing the script to create and train the model
 * drive.py for driving the car in autonomous mode
 * model.h5 containing a trained convolution neural network 
-* writeup_report.md or writeup_report.pdf summarizing the results
+* Report.md or writeup_report.pdf summarizing the results
 
-####2. Submission includes functional code
+#### 2. Submission includes functional code
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
 python drive.py model.h5
 ```
 
-####3. Submission code is usable and readable
+#### 3. Submission code is usable and readable
 
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works. model.py contains command line parser that configures the behavior of data augmentation. The default values of these options are modified to reflect the submitted models. 
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. An appropriate model architecture has been employed
+#### 1. An appropriate model architecture has been employed
 
 My model consists of a convolution neural network with 4 convolutional layers with 3x3 filters and depths (8, 16, 32, 64), each followed by a max-pooling layer of size (2,2), and 4 fully-connected layers with number of output nodes equal to (256, 128, 32, 1) where the first free layers using the Rectified Linear Unit (ReLU) as the activation function. (model.py lines 227-246).
 
 The data is normalized in the model using a Keras Lambda layer. Each fully connected layer uses a 0.5 drop out. 
 
 
-####2. Attempts to reduce overfitting in the model
+#### 2. Attempts to reduce overfitting in the model
 
 The model tries to minimize the number of model parameters by using multiple convolutional layers with small filter sizes instead of convolutional layers with large filter sizes. 
 
@@ -65,17 +62,17 @@ The model uses dropout in the fully connected layers in order to reduce overfitt
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (model.py lines 252 for training execution and 217-223 for validation data generator). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
-####3. Model parameter tuning
+#### 3. Model parameter tuning
 
 The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 246).
 
-####4. Appropriate training data
+#### 4. Appropriate training data
 
 I use a subset of the training data provided by Udacity. To obtain the training data, I keep all the original data with which the associated steering angle is larger than 0.02 and only keep 30% of the data with which the associated steering angle is no larger than 0.02. The data augmentation appraoch is described the next section. 
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 
 The main strategy to drive this model is find an appropriate model size, dervied from appropriately augmented training and validation data set. 
 
@@ -87,9 +84,13 @@ To augment the data, I initally use the following steps:
 1. I first use the left and right image in addition to the center image where I shift the steering angle by a certain amount $a$. For example, if the original sample has steering angle $x$, then the steering angle associated with left image would be $x+a$ and the one associated with the right image would be $x-a$.
 2. I also experimented apply an affine transformation to the steering angle, i.e., $bx+a$ for the left and right image. I eventuall dropped this approach due to the difficulty to optimize two parameters and lack of evidence that the coefficient $b$ brings significant advantage. 
 3. For each image added to the data, I also flip the image and add the flipped image to the data.
-There are some more augmentation I took after running this model, and those will be described later. 
+There are some more augmentation I took after running this model, and those will be described later. The augmentation idea of using random shadow is borrowed from http://navoshta.com/end-to-end-deep-learning/
 
-I run the model on the simulation. The model would then veers off the road at the first left turn after the bridge where there is a openning. See ![alt text][image1]
+I run the model on the simulation. The model would then veers off the road at the first left turn after the bridge where there is a openning. See below
+
+![alt text][image1]
+
+This suggests that the model might be overfitting to the common type of edges seen in the training data. Therefore, I added augmentation with brigthness variation in later steps.
 
 I experimented with various $a$ and added some of my own training image. In addition, I start to drop a random subset of images whose steering angle is close to 0. While changing $a$ would have a significant impact how straight the car drives it self, (a higher $a$ sometimes lead to unstable driving behavior where the car would have large steering angles and begins to bounce between two sides of the road before it finally go off road. These do not resolve the issue when the car would veer off the road at the previously mentioned location.
 
@@ -101,7 +102,7 @@ I started to experiment with more augmentation techniques, including (in the ord
 
 By experimenting with adding these augmentations, I eventually decided to use option 1 and option 4. After these two additional augmentaions, the vehicle is able to drive around the track. In particular, option 4 helps stablize the car and also get over the previous location where the car veers off the road. On the other hand, using option 1, 2 does help get through the previous location but the car is not very stable.
 
-####2. Final Model Architecture
+#### 2. Final Model Architecture
 
 The final model architecture (line 227-246) consisted of a convolution neural network with the following layers and filter sizes:
 1. cropping layer
@@ -119,7 +120,7 @@ Here is a visualization of the architecture (note: visualizing the architecture 
 
 ![alt text][image2]
 
-####3. Creation of the Training Set & Training Process
+#### 3. Creation of the Training Set & Training Process
 
 I use and augment the data set provided by Udacity. As described in the previous section, the following preprocessing and augmentation is done on the data set:
 
